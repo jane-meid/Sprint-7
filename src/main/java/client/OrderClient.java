@@ -1,0 +1,38 @@
+package client;
+
+import io.qameta.allure.Step;
+import io.restassured.response.Response;
+import models.OrderRequest;
+
+import static io.restassured.RestAssured.given;
+
+public class OrderClient {
+
+    @Step("Создание заказа")
+    public static Response createOrder(OrderRequest orderRequest) {
+
+        return given()
+                .header("Content-Type", "application/json")
+                .body(orderRequest)
+                .when()
+                .post("/api/v1/orders");
+    }
+
+    @Step("Получение списка заказов")
+    public static Response getOrderList() {
+
+        return given()
+                .header("Content-Type", "application/json")
+                .when()
+                .get("/v1/orders");
+    }
+
+    @Step("Отмена заказа")
+    public static Response cancel(String track) {
+
+    return given()
+            .header("Content-type", "application/json")
+            .when()
+            .put("/api/v1/orders/cancel?track=" + track);
+}
+}
