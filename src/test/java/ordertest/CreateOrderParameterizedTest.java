@@ -36,6 +36,7 @@ public class CreateOrderParameterizedTest extends Client {
         this.colors = colors;
     }
 
+    @Before
     public void setUp() {
         RestAssured.requestSpecification = requestSpec;
     }

@@ -14,7 +14,6 @@ import org.junit.Test;
 import static java.util.Optional.empty;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
 
 public class CreateOrderWithoutColorTest extends Client {
 
@@ -31,10 +30,11 @@ public class CreateOrderWithoutColorTest extends Client {
 
     String track;
 
-
+    @Before
     public void setUp() {
         RestAssured.requestSpecification = requestSpec;
     }
+
     @Test
     @DisplayName("Создание заказа без указания параметра color")
     @Description("Заказ можно создать, если не указать параметр color")

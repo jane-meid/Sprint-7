@@ -19,6 +19,7 @@ public class GetListOrderTest extends Client {
 
     private OrderClient orderClient;
 
+    @Before
     public void setUp() {
         RestAssured.requestSpecification = requestSpec;
         orderClient = new OrderClient();
