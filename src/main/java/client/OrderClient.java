@@ -9,7 +9,8 @@ import static io.restassured.RestAssured.given;
 public class OrderClient {
 
     private static final String BASE_URL = "/api/v1/orders";
-    private static final String LOGIN_URL = "/api/v1/orders/cancel?track=";
+    private static final String GET_URL = "/v1/orders";
+    private static final String CANCEL_URL = "/api/v1/orders/cancel?track=";
 
     @Step("Создание заказа")
     public static Response createOrder(OrderRequest orderRequest) {
@@ -27,7 +28,7 @@ public class OrderClient {
         return given()
                 .header("Content-Type", "application/json")
                 .when()
-                .get("/v1/orders");
+                .get(GET_URL);
     }
 
     @Step("Отмена заказа")
@@ -36,6 +37,6 @@ public class OrderClient {
     return given()
             .header("Content-type", "application/json")
             .when()
-            .put(LOGIN_URL + track);
+            .put(CANCEL_URL + track);
 }
 }
