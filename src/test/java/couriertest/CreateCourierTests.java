@@ -98,7 +98,9 @@ public class CreateCourierTests extends Client {
 
     @After
     public void tearDown() {
-        courierClient.delete(id);
+        if (id != 0) {
+            courierClient.delete(id);
+        }
     }
 
 }
