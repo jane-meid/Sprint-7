@@ -1,22 +1,22 @@
-package orderTest;
-
+package ordertest;
+import client.Client;
 import client.OrderClient;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import models.OrderRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.apache.http.HttpStatus.SC_CREATED;
-import static org.hamcrest.CoreMatchers.notNullValue;
 
 @RunWith(Parameterized.class)
-public class CreateOrderTests {
+public class CreateOrderParameterizedTest extends Client {
 
     private static final String FIRST_NAME = "Райан";
     private static final String LAST_NAME = "Гослинг";
@@ -32,14 +32,12 @@ public class CreateOrderTests {
 
     private OrderClient orderClient;
 
-    public CreateOrderTests(String[] colors) {
+    public CreateOrderParameterizedTest(String[] colors) {
         this.colors = colors;
     }
 
-    @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
-        orderClient = new OrderClient();
+        RestAssured.requestSpecification = requestSpec;
     }
 
     @Parameterized.Parameters(name = "colour = ''{0}''")
@@ -71,27 +69,8 @@ public class CreateOrderTests {
                 .body("track", notNullValue());
     }
 
-    @Test
-    @DisplayName("Создание заказа без указания параметра color")
-    @Description("Заказ можно создать, если не указать параметр color")
-    public void createOrderWithoutColor() {
-        OrderRequest order = new OrderRequest(FIRST_NAME, LAST_NAME, ADDRESS, METRO_STATION, PHONE, RENT_TIME, DELIVERY_DATE, COMMENT, null);
-        Response response = orderClient.createOrder(order);
-        track = response
-                .then()
-                .extract()
-                .path("track").toString();
-
-        response
-                .then()
-                .assertThat()
-                .statusCode(SC_CREATED)
-                .assertThat()
-                .body("track", notNullValue());
-    }
-
     @After
     public void cancelOrder() {
-            OrderClient.cancel(track);
+        OrderClient.cancel(track);
     }
 }

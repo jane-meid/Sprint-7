@@ -11,6 +11,9 @@ import static models.CourierWithoutPassword.loginFromCourier;
 
 public class CourierClient {
 
+    private static final String BASE_URL = "api/v1/courier";
+    private static final String LOGIN_URL = "api/v1/courier/login";
+
     @Step("Создание курьера")
     public static Response create(Courier courier) {
         return given()
@@ -18,7 +21,7 @@ public class CourierClient {
                 .and()
                 .body(courier)
                 .when()
-                .post("api/v1/courier");
+                .post(BASE_URL);
     }
 
     @Step("Авторизация курьера")
@@ -28,7 +31,7 @@ public class CourierClient {
                 .and()
                 .body(credsFromCourier(courier))
                 .when()
-                .post("api/v1/courier/login");
+                .post(LOGIN_URL);
     }
 
     @Step("Создание курьера без логина")
@@ -38,7 +41,7 @@ public class CourierClient {
                 .and()
                 .body(passwordFromCourier(courier))
                 .when()
-                .post("api/v1/courier");
+                .post(BASE_URL);
     }
 
     @Step("Создание курьера без пароля")
@@ -48,7 +51,7 @@ public class CourierClient {
                 .and()
                 .body(loginFromCourier(courier))
                 .when()
-                .post("api/v1/courier");
+                .post(BASE_URL);
     }
 
     @Step("Авторизация курьера без логина")
@@ -58,7 +61,7 @@ public class CourierClient {
                 .and()
                 .body(passwordFromCourier(courier))
                 .when()
-                .post("api/v1/courier/login");
+                .post(LOGIN_URL);
     }
 
     @Step("Авторизация курьера без пароля")
@@ -68,7 +71,7 @@ public class CourierClient {
                 .and()
                 .body(loginFromCourier(courier))
                 .when()
-                .post("api/v1/courier/login");
+                .post(LOGIN_URL);
     }
 
     @Step("Авторизация курьера с несуществующим логином")
@@ -78,7 +81,7 @@ public class CourierClient {
                 .and()
                 .body(nonExistentLoginFromCourier(courier))
                 .when()
-                .post("api/v1/courier/login");
+                .post(LOGIN_URL);
     }
 
     @Step("Авторизация курьера с несуществующим паролем")
@@ -88,7 +91,7 @@ public class CourierClient {
                 .and()
                 .body(nonExistentPasswordFromCourier(courier))
                 .when()
-                .post("api/v1/courier/login");
+                .post(LOGIN_URL);
     }
 
     @Step("Удаление курьера")
@@ -96,7 +99,7 @@ public class CourierClient {
         return given()
                 .header("Content-type", "application/json")
                 .when()
-                .delete("api/v1/courier/" + id);
+                .delete(BASE_URL + "/" + id);
     }
 
 }

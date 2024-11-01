@@ -1,25 +1,26 @@
-package orderTest;
+package ordertest;
 
+import client.Client;
 import client.OrderClient;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
 
+import static java.util.Optional.empty;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.not;
 
-public class GetListOrderTest {
+public class GetListOrderTest extends Client {
 
     private OrderClient orderClient;
 
-    @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
+        RestAssured.requestSpecification = requestSpec;
         orderClient = new OrderClient();
     }
 
@@ -33,7 +34,7 @@ public class GetListOrderTest {
                 .assertThat()
                 .statusCode(SC_OK)
                 .assertThat()
-                .body("orders", notNullValue());
+                .body("orders", not(empty()));
 
     }
 

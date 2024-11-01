@@ -1,5 +1,6 @@
-package courierTest;
+package couriertest;
 
+import client.Client;
 import client.CourierClient;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
@@ -16,13 +17,13 @@ import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-public class LoginCourierTests {
+public class LoginCourierTests extends Client {
     private CourierClient courierClient;
     private int id;
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
+        RestAssured.requestSpecification = requestSpec;
     }
 
     @Test
@@ -128,11 +129,11 @@ public class LoginCourierTests {
 
     }
 
-
-
     @After
     public void tearDown() {
-        courierClient.delete(id);
+        if (id != 0) {
+            courierClient.delete(id);
+        }
     }
 
     }
