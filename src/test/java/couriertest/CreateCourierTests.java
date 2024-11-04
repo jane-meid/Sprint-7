@@ -34,7 +34,10 @@ public class CreateCourierTests extends Client {
         Courier courier = randomCourier();
         courierClient = new CourierClient();
         
-       Response response = courierClient.create(courier);
+        Response response = courierClient.create(courier);
+
+        Response loginResponse = courierClient.login(courier);
+        id = loginResponse.as(CourierId.class).getId();
 
         response
                 .then()
@@ -98,9 +101,7 @@ public class CreateCourierTests extends Client {
 
     @After
     public void tearDown() {
-        if (id != 0) {
-            courierClient.delete(id);
-        }
+        courierClient.delete(id);
     }
 
 }

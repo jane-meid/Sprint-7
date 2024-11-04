@@ -51,11 +51,15 @@ public class LoginCourierTests extends Client {
     @DisplayName("Авторизация курьера без логина")
     @Description("Для авторизации курьера необходимо передать все обязательные поля. Передаётся пустой логин")
     public void loginCourierWithoutLogin(){
+
         Courier courier = randomCourier();
         courierClient = new CourierClient();
 
         courierClient.create(courier);
         Response response = courierClient.loginWithoutLogin(courier);
+
+        Response loginResponse = courierClient.login(courier);
+        id = loginResponse.as(CourierId.class).getId();
 
         response
                 .then()
@@ -76,6 +80,9 @@ public class LoginCourierTests extends Client {
 
         courierClient.create(courier);
         Response response = courierClient.loginWithoutPassword(courier);
+
+        Response loginResponse = courierClient.login(courier);
+        id = loginResponse.as(CourierId.class).getId();
 
         response
                 .then()
@@ -98,6 +105,9 @@ public class LoginCourierTests extends Client {
         courierClient.create(courier);
         Response response = courierClient.loginWithNonExistentLogin(courier);
 
+        Response loginResponse = courierClient.login(courier);
+        id = loginResponse.as(CourierId.class).getId();
+
         response
                 .then()
                 .assertThat()
@@ -119,6 +129,9 @@ public class LoginCourierTests extends Client {
         courierClient.create(courier);
         Response response = courierClient.loginWithNonExistentPassword(courier);
 
+        Response loginResponse = courierClient.login(courier);
+        id = loginResponse.as(CourierId.class).getId();
+
         response
                 .then()
                 .assertThat()
@@ -131,9 +144,7 @@ public class LoginCourierTests extends Client {
 
     @After
     public void tearDown() {
-        if (id != 0) {
-            courierClient.delete(id);
-        }
+        courierClient.delete(id);
     }
 
     }
